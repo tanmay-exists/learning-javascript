@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Events</title>
+</head>
+<body style="background-color: #414141; color: aliceblue;">
+    <h2>Amazing image</h2>
+    <div >
+        <ul id="images">
+            <li><img width="200px" id="photoshop" src="https://images.pexels.com/photos/3561339/pexels-photo-3561339.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load" alt="photoshop"></li>
+            <li><img width="200px" id="japan" src="https://images.pexels.com/photos/3532553/pexels-photo-3532553.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load" alt=""></li>
+            <li><img width="200px" id="river" src="https://images.pexels.com/photos/3532551/pexels-photo-3532551.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load" alt=""></li>
+            <li><img width="200px" id="owl" src="https://images.pexels.com/photos/3532552/pexels-photo-3532552.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load" alt="" ></li>
+            <li><img width="200px" id="prayer" src="https://images.pexels.com/photos/2522671/pexels-photo-2522671.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load" alt=""></li>
+            <li><a style="color: aliceblue;" href="https://google.com" id="google">Google</a></li>
+        </ul>
+   </div>
+</body>
+<script>
+    // the following is not an ideal approach
+    // document.getElementById('owl').onclick = function(){
+    //     alert('owl clicked')
+    // }
+
+    // the following is a better approach
+    // document.getElementById('owl').addEventListener('click', function(){
+    //     alert('owl clicked')
+    // }, false)
+    // type, timestamp, defaultPrevented, target, toElement, srcElement, currentTarget, clientX, clientY, screenX, screenY, altkey, ctrlkey, shiftkey, keyCode
+
+    // attachEvent()
+    // jQuery - on
+    document.getElementById('images').addEventListener('click', function(e){
+        console.log("clicked inside the ul")
+    }, false)
+    
+    document.getElementById('owl').addEventListener('click', function(e){
+        console.log("clicked owl")
+        e.stopPropagation() // if this is written then event won't bubble and won't show the "clicked inside the ul" of upper event
+    }, false)   // this will display "clicked owl" and "clicked inside the ul"
+    // if the above of id-images was set true, it would have displayed "clicked inside the ul" first and then " clicked owl"
+    // the true is called capturing mode, capturing mode always works top to bottom
+    // false is called bubbling event
+    // bubble neeche se upar jaata hai
+    // capturing top se bottom jaata hai
+
+    document.getElementById('google').addEventListener('click', function(){
+        console.log("google clicked")
+        e.preventDefault()
+    }, false)   // event propogation is set to false by default
+
+    document.querySelector('#images').addEventListener('click', function(e){
+        // console.log(e.target.parentNode)
+        if(e.target.tagName === 'IMG'){
+            console.log(e.target.id)
+            let removeIt = e.target.parentNode
+            // removeIt.remove()
+            removeIt.parentNode.removeChild(removeIt)
+        }
+    }, false)
+</script>
+</html>
